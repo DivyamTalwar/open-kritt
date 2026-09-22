@@ -458,9 +458,23 @@ export class AccountLoginManager {
     this.environmentFilePath = environmentFilePath;
     this.timeoutMs = timeoutMs;
     this.sessions = new Map();
+    this.startingProviders = new Map();
   }
 
   async start(provider, accountId = null) {
+    const existing = this.startingProviders.get(provider);
+    if (existing) return existing;
+
+    const pending = this.startSession(provider, accountId);
+    this.startingProviders.set(provider, pending);
+    try {
+      return await pending;
+    } finally {
+      this.startingProviders.delete(provider);
+    }
+  }
+
+  async startSession(provider, accountId) {
     if (!LOGIN_PROVIDERS.has(provider)) throw loginError('Choose Codex, Claude, or xAI login.');
     const activeForProvider = [...this.sessions.values()].find(
       (session) => session.provider === provider && ['starting', 'waiting'].includes(session.status)
