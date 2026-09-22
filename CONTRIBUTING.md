@@ -58,6 +58,11 @@ recommended for changes that cross component boundaries:
 docker compose up --build
 ```
 
+Backend JSON requests return `400` for malformed JSON, `413` for bodies over the
+8 MB limit, and `422` for application validation errors. Parser errors must not
+echo request contents; unexpected application exceptions remain sanitized `500`
+responses.
+
 ## Project rules
 
 - Never commit credentials, tokens, `.env`, or local scan data.
