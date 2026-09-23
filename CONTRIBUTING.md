@@ -58,6 +58,11 @@ recommended for changes that cross component boundaries:
 docker compose up --build
 ```
 
+Runtime provider-home lists are authoritative once their key exists, including
+an explicitly empty value. Account updates must not restore project `.env` homes
+when the corresponding live list was cleared. The project value is only a fallback
+when the runtime key is absent.
+
 ## Project rules
 
 - Never commit credentials, tokens, `.env`, or local scan data.
