@@ -106,7 +106,9 @@ async function updateCodexRuntimeHome(
   let nextHomes = [];
   const state = await mutateEnvironmentFile(
     (values) => {
-      const homes = splitConfiguredHomes(values.ENGINE_CODEX_HOME || initialHomes.join(','));
+      const homes = splitConfiguredHomes(
+        Object.hasOwn(values, 'ENGINE_CODEX_HOME') ? values.ENGINE_CODEX_HOME : initialHomes.join(',')
+      );
       const updatedHomes = present
         ? homes.includes(home)
           ? homes
@@ -227,7 +229,9 @@ async function updateGrokRuntimeHome(
   let nextHomes = [];
   const state = await mutateEnvironmentFile(
     (values) => {
-      const homes = splitConfiguredHomes(values.ENGINE_GROK_HOME || initialHomes.join(','));
+      const homes = splitConfiguredHomes(
+        Object.hasOwn(values, 'ENGINE_GROK_HOME') ? values.ENGINE_GROK_HOME : initialHomes.join(',')
+      );
       const updatedHomes = present
         ? homes.includes(home)
           ? homes

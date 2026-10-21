@@ -65,6 +65,11 @@ responses.
 
 ## Project rules
 
+Runtime provider-home lists are authoritative once their key exists, including
+an explicitly empty value. Account updates must not restore project `.env` homes
+when the corresponding live list was cleared. The project value is only a fallback
+when the runtime key is absent.
+
 - Never commit credentials, tokens, `.env`, or local scan data.
 - Database changes must use a new numbered SQL file in `database/init/`. Migrations
   must be additive, forward-only, and safe to run repeatedly; update
