@@ -91,3 +91,5 @@ attempts are appropriate for your provider account and workload.
 Settings returns only an explicit allowlist of non-secret runtime values. Provider API
 keys and login credentials are managed separately under **Accounts** and are never
 included in the settings response.
+
+Concurrent settings saves are applied in order, including any rollback after a persistence error. A failed save cannot undo a later successful save.
